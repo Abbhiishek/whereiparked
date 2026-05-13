@@ -31,6 +31,7 @@ yarn-error.*
 *.pem
 
 # local env files
+.env
 .env*.local
 
 # typescript
@@ -38,6 +39,14 @@ yarn-error.*
 
 app-example
 
-# generated native folders
+# generated native folders (Continuous Native Generation)
 /ios
 /android
+
+# build artifacts
+*.aab
+*.apk
+
+# Drizzle
+# (migrations are committed; only IDE caches are excluded)
+.drizzle/

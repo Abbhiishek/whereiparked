@@ -1,47 +1,68 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
-
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+const tintColorLight = '#0E7C66';
+const tintColorDark = '#5AB395';
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
+    text: '#0E1411',
+    textMuted: '#5C6B66',
+    background: '#FFFFFF',
+    surface: '#F5F8F6',
+    border: '#E2E8E5',
     tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
+    icon: '#5C6B66',
+    tabIconDefault: '#5C6B66',
     tabIconSelected: tintColorLight,
+    danger: '#D14343',
+    success: '#2BB673',
+    accent: '#FFB020',
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
+    text: '#F5F8F6',
+    textMuted: '#9AAAA4',
+    background: '#0B1F1A',
+    surface: '#13312A',
+    border: '#1F4337',
     tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
+    icon: '#9AAAA4',
+    tabIconDefault: '#9AAAA4',
     tabIconSelected: tintColorDark,
+    danger: '#FF6B6B',
+    success: '#4FD198',
+    accent: '#FFC04D',
   },
-};
+} as const;
+
+export const Spacing = {
+  xs: 4,
+  sm: 8,
+  md: 12,
+  lg: 16,
+  xl: 24,
+  xl2: 32,
+  xl3: 48,
+} as const;
+
+export const Radii = {
+  sm: 6,
+  md: 10,
+  lg: 16,
+  xl: 24,
+  pill: 999,
+} as const;
 
 export const Fonts = Platform.select({
   ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
     sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
     serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
     rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
     mono: 'ui-monospace',
   },
   default: {
-    sans: 'normal',
+    sans: 'System',
     serif: 'serif',
-    rounded: 'normal',
+    rounded: 'System',
     mono: 'monospace',
   },
   web: {

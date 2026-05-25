@@ -1,5 +1,5 @@
-import { Download, Info, Trash2 } from 'lucide-react-native';
-import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
+import { Download, Info, Sparkles, Trash2 } from 'lucide-react-native';
+import { Alert, Pressable, ScrollView, Switch, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { clearAllSessions } from '@/db/queries/sessions';
@@ -16,6 +16,8 @@ export default function SettingsScreen() {
   const setUnits = useSettingsStore((s) => s.setUnits);
   const retentionDays = useSettingsStore((s) => s.retentionDays);
   const setRetentionDays = useSettingsStore((s) => s.setRetentionDays);
+  const delightEnabled = useSettingsStore((s) => s.delightEnabled);
+  const setDelightEnabled = useSettingsStore((s) => s.setDelightEnabled);
 
   function handleWipe() {
     Alert.alert(
@@ -68,6 +70,27 @@ export default function SettingsScreen() {
             onSelect={setRetentionDays}
             renderLabel={(v) => `${v} days`}
           />
+        </Section>
+
+        <Section title="Feel">
+          <View className="flex-row items-center gap-3 px-4 py-3">
+            <Sparkles color="#0E7C66" size={20} />
+            <View className="flex-1">
+              <Text className="text-base font-medium text-ink dark:text-ink-inverse">
+                Motion & haptics
+              </Text>
+              <Text className="text-xs text-ink-muted mt-0.5">
+                Springy buttons, gentle pulses, and tap feedback. Off respects accessibility
+                settings only.
+              </Text>
+            </View>
+            <Switch
+              value={delightEnabled}
+              onValueChange={setDelightEnabled}
+              trackColor={{ false: '#9AAAA4', true: '#0E7C66' }}
+              thumbColor="#FFFFFF"
+            />
+          </View>
         </Section>
 
         <Section title="Data">

@@ -1,5 +1,12 @@
 import { type ReactNode } from 'react';
 import { ActivityIndicator, Pressable, Text, View, type PressableProps } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+
+import { pressHaptic, SPRING_SNAPPY, useDelightEnabled } from '@/lib/delight';
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
 type Size = 'sm' | 'md' | 'lg';
@@ -12,6 +19,7 @@ interface ButtonProps extends Omit<PressableProps, 'children'> {
   leadingIcon?: ReactNode;
   trailingIcon?: ReactNode;
   fullWidth?: boolean;
+  haptic?: boolean;
 }
 
 const variantClasses: Record<Variant, { container: string; label: string }> = {
@@ -39,6 +47,8 @@ const sizeClasses: Record<Size, { container: string; label: string }> = {
   lg: { container: 'py-4 px-5 rounded-2xl min-h-[56px]', label: 'text-base' },
 };
 
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
 export function Button({
   label,
   variant = 'primary',
@@ -48,17 +58,42 @@ export function Button({
   trailingIcon,
   fullWidth = true,
   disabled,
+  haptic,
+  onPressIn,
+  onPressOut,
+  style,
   ...rest
 }: ButtonProps) {
   const v = variantClasses[variant];
   const s = sizeClasses[size];
   const widthClass = fullWidth ? 'w-full' : '';
   const disabledClass = disabled || loading ? 'opacity-50' : '';
+  const delight = useDelightEnabled();
+  const scale = useSharedValue(1);
+  const hapticDefault = variant === 'primary' || variant === 'danger';
+  const enableHaptic = haptic ?? hapticDefault;
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
   return (
-    <Pressable
+    <AnimatedPressable
       {...rest}
       disabled={disabled || loading}
       accessibilityRole="button"
+      onPressIn={(ev) => {
+        if (!(disabled || loading)) {
+          if (delight) scale.value = withSpring(0.96, SPRING_SNAPPY);
+          if (enableHaptic) pressHaptic();
+        }
+        onPressIn?.(ev);
+      }}
+      onPressOut={(ev) => {
+        if (delight) scale.value = withSpring(1, SPRING_SNAPPY);
+        onPressOut?.(ev);
+      }}
+      style={[animatedStyle, style]}
       className={`${v.container} ${s.container} ${widthClass} ${disabledClass} flex-row items-center justify-center gap-2`}>
       {loading ? (
         <ActivityIndicator color={variant === 'secondary' ? '#0E7C66' : '#FFFFFF'} />
@@ -69,6 +104,6 @@ export function Button({
           {trailingIcon ? <View>{trailingIcon}</View> : null}
         </>
       )}
-    </Pressable>
+    </AnimatedPressable>
   );
 }

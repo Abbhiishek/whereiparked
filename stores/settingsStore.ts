@@ -13,6 +13,7 @@ interface SettingsShape {
   units: Units;
   retentionDays: number;
   themePref: ThemePref;
+  delightEnabled: boolean;
 }
 
 const defaults: SettingsShape = {
@@ -20,10 +21,11 @@ const defaults: SettingsShape = {
   units: 'metric',
   retentionDays: APP_CONFIG.defaultRetentionDays,
   themePref: 'system',
+  delightEnabled: true,
 };
 
 function readSync(): SettingsShape {
-  return getJsonPreference<SettingsShape>(STORAGE_KEY, defaults);
+  return { ...defaults, ...getJsonPreference<Partial<SettingsShape>>(STORAGE_KEY, defaults) };
 }
 
 function persist(state: SettingsShape): void {
@@ -35,6 +37,7 @@ interface SettingsState extends SettingsShape {
   setUnits: (units: Units) => void;
   setRetentionDays: (days: number) => void;
   setThemePref: (theme: ThemePref) => void;
+  setDelightEnabled: (enabled: boolean) => void;
 }
 
 export const useSettingsStore = create<SettingsState>((set, get) => ({
@@ -55,6 +58,10 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
     set({ themePref });
     persist({ ...stripActions(get()), themePref });
   },
+  setDelightEnabled: (delightEnabled) => {
+    set({ delightEnabled });
+    persist({ ...stripActions(get()), delightEnabled });
+  },
 }));
 
 function stripActions(state: SettingsState): SettingsShape {
@@ -63,5 +70,6 @@ function stripActions(state: SettingsState): SettingsShape {
     units: state.units,
     retentionDays: state.retentionDays,
     themePref: state.themePref,
+    delightEnabled: state.delightEnabled,
   };
 }

@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { MapPin } from 'lucide-react-native';
 import { nanoid } from 'nanoid/non-secure';
 import { useMemo, useState } from 'react';
-import { ActivityIndicator, Alert, ScrollView, Text, View } from 'react-native';
+import { Alert, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ExpirationPicker } from '@/components/session/ExpirationPicker';
@@ -10,8 +10,10 @@ import { NoteField } from '@/components/session/NoteField';
 import { PhotoCapture } from '@/components/session/PhotoCapture';
 import { VoiceRecorder } from '@/components/session/VoiceRecorder';
 import { Button } from '@/components/ui/Button';
+import { LocationLockIndicator } from '@/components/ui/LocationLockIndicator';
 import { insertSession, updateSession } from '@/db/queries/sessions';
 import { useLocation } from '@/hooks/useLocation';
+import { successHaptic } from '@/lib/delight';
 import { formatCoords } from '@/lib/geo';
 import { createLogger } from '@/lib/logger';
 import { scheduleExpirationReminder } from '@/services/notifications/scheduler';
@@ -68,6 +70,7 @@ export default function SaveScreen() {
         }
       }
 
+      successHaptic();
       router.replace('/(tabs)');
     } catch (err) {
       log.error('Save failed', err);
@@ -92,7 +95,7 @@ export default function SaveScreen() {
                 : locationError ?? 'Hold on a moment...'}
             </Text>
           </View>
-          {isCapturing ? <ActivityIndicator size="small" color="#0E7C66" /> : null}
+          {isCapturing && !coords ? <LocationLockIndicator /> : null}
         </View>
 
         <PhotoCapture uri={photoUri} onChange={setPhotoUri} />

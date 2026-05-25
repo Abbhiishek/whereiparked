@@ -12,6 +12,7 @@ import { Card } from '@/components/ui/Card';
 import { markSessionEnded } from '@/db/queries/sessions';
 import { useActiveSession } from '@/hooks/useActiveSession';
 import { useLocation } from '@/hooks/useLocation';
+import { successHaptic } from '@/lib/delight';
 import { formatCoords, formatDistance, haversineMeters, walkingEtaMinutes } from '@/lib/geo';
 import { relativeFromNow } from '@/lib/time';
 import { cancelExpirationReminder } from '@/services/notifications/scheduler';
@@ -49,6 +50,7 @@ export default function FindScreen() {
       if (ended?.reminderNotificationId) {
         await cancelExpirationReminder(ended.reminderNotificationId);
       }
+      successHaptic();
       router.replace('/(tabs)');
     } catch {
       Alert.alert('Could not end session', 'Please try again.');

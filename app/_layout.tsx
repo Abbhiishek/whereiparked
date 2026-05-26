@@ -12,12 +12,14 @@ import { ActivityIndicator, Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { UpdateToast } from '@/components/ui/UpdateToast';
 import { Midnight } from '@/constants/design';
 
 import { useMigrations } from '@/db/migrate';
 import { parseDeepLink } from '@/lib/deeplink';
 import { createLogger } from '@/lib/logger';
 import { useActiveSession } from '@/hooks/useActiveSession';
+import { useOTAUpdate } from '@/hooks/useOTAUpdate';
 import { configureNotifications } from '@/services/notifications/scheduler';
 import { registerNotificationResponseHandler } from '@/services/notifications/handlers';
 import { refreshWidget } from '@/services/widget/update';
@@ -124,6 +126,7 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
           <ThemeProvider value={MidnightNavTheme}>
             <RootEffects />
+            <OTABanner />
             <Stack
               screenOptions={{
                 headerShown: false,
@@ -168,4 +171,9 @@ function RootEffects() {
     refreshWidget().catch(() => {});
   }, [active?.id, parkedAtMs, active?.note, active?.photoLocalUri]);
   return null;
+}
+
+function OTABanner() {
+  const { ready, apply, dismiss } = useOTAUpdate();
+  return <UpdateToast visible={ready} onApply={apply} onDismiss={dismiss} />;
 }

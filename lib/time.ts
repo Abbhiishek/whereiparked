@@ -22,3 +22,20 @@ export function formatCountdown(ms: number): string {
 export function minutesUntil(target: Date): number {
   return differenceInMinutes(target, new Date());
 }
+
+/**
+ * Format a duration in seconds as M:SS (or H:MM:SS for >= 1 hour).
+ * Used for voice notes and short timers.
+ */
+export function formatMmSs(seconds: number): string {
+  const safe = Math.max(0, Math.floor(seconds));
+  const hours = Math.floor(safe / 3600);
+  const minutes = Math.floor((safe % 3600) / 60);
+  const secs = safe % 60;
+  const ss = secs.toString().padStart(2, '0');
+  if (hours > 0) {
+    const mm = minutes.toString().padStart(2, '0');
+    return `${hours}:${mm}:${ss}`;
+  }
+  return `${minutes}:${ss}`;
+}

@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { clearAllSessions } from '@/db/queries/sessions';
 import { exportSessionsAsJson } from '@/services/exportJson';
+import { refreshWidget } from '@/services/widget/update';
 import { useSettingsStore } from '@/stores/settingsStore';
 
 const REMINDER_OPTIONS = [5, 10, 15, 30] as const;
@@ -30,6 +31,7 @@ export default function SettingsScreen() {
           style: 'destructive',
           onPress: async () => {
             await clearAllSessions();
+            await refreshWidget().catch(() => {});
           },
         },
       ],

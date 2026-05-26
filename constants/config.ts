@@ -15,6 +15,9 @@ export const SYNC_BACKOFF_MS = (attempt: number): number =>
 
 export const DEEP_LINKS = {
   widgetSave: 'parkspot://widget/save',
+  // Single-tap save from widget: opens save screen and auto-commits the
+  // first GPS fix without requiring the user to tap Save.
+  widgetQuickSave: 'parkspot://widget/save?auto=1',
   widgetFind: 'parkspot://widget/find',
   authCallback: 'parkspot://auth/callback',
 } as const;

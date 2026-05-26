@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { createLogger } from '@/lib/logger';
+import { formatMmSs } from '@/lib/time';
 
 const log = createLogger('VoicePlayer');
 
@@ -63,8 +64,10 @@ export function VoicePlayer({ uri, durationSec }: VoicePlayerProps) {
       </View>
       <View className="flex-1">
         <Text className="text-base font-medium text-brand-700 dark:text-brand-100">Voice note</Text>
-        {durationSec !== null ? (
-          <Text className="text-xs text-ink-muted">{durationSec}s</Text>
+        {durationSec !== null && durationSec > 0 ? (
+          <Text className="text-xs text-ink-muted" style={{ fontVariant: ['tabular-nums'] }}>
+            {formatMmSs(durationSec)}
+          </Text>
         ) : null}
       </View>
     </Pressable>

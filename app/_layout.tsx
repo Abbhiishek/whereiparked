@@ -58,8 +58,11 @@ export default function RootLayout() {
     if (!migrationsReady) return;
     const handleUrl = (url: string) => {
       const parsed = parseDeepLink(url);
-      if (parsed.kind === 'widget-save') router.push('/save');
-      else if (parsed.kind === 'widget-find') router.push('/find');
+      if (parsed.kind === 'widget-save') {
+        router.push({ pathname: '/save', params: parsed.auto ? { auto: '1' } : {} });
+      } else if (parsed.kind === 'widget-find') {
+        router.push('/find');
+      }
     };
     const sub = Linking.addEventListener('url', ({ url }) => handleUrl(url));
     Linking.getInitialURL().then((url) => {

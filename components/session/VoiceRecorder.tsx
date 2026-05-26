@@ -6,6 +6,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import { APP_CONFIG } from '@/constants/config';
 import { createLogger } from '@/lib/logger';
+import { formatMmSs } from '@/lib/time';
 
 const log = createLogger('VoiceRecorder');
 
@@ -128,7 +129,11 @@ export function VoiceRecorder({ uri, durationSec, sessionId, onChange }: VoiceRe
       <View className="bg-danger/10 rounded-2xl px-4 py-4 flex-row items-center justify-between">
         <View className="flex-row items-center gap-3">
           <View className="w-3 h-3 rounded-full bg-danger" />
-          <Text className="text-base font-semibold text-danger">Recording... {elapsed}s</Text>
+          <Text
+            className="text-base font-semibold text-danger"
+            style={{ fontVariant: ['tabular-nums'] }}>
+            Recording · {formatMmSs(elapsed)}
+          </Text>
         </View>
         <Pressable
           onPress={stopRecording}
@@ -147,8 +152,10 @@ export function VoiceRecorder({ uri, durationSec, sessionId, onChange }: VoiceRe
           <View className="w-10 h-10 rounded-full bg-brand-500 items-center justify-center">
             {isPlaying ? <Pause color="#FFFFFF" size={20} fill="#FFFFFF" /> : <Play color="#FFFFFF" size={20} fill="#FFFFFF" />}
           </View>
-          <Text className="text-base font-medium text-brand-700 dark:text-brand-100">
-            Voice note · {durationSec ?? 0}s
+          <Text
+            className="text-base font-medium text-brand-700 dark:text-brand-100"
+            style={{ fontVariant: ['tabular-nums'] }}>
+            Voice note · {formatMmSs(durationSec ?? 0)}
           </Text>
         </Pressable>
         <Pressable onPress={clear} className="p-2">

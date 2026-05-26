@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { MapPin, Plus } from 'lucide-react-native';
+import { Clock, MapPin, Plus } from 'lucide-react-native';
 import { useEffect } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,10 +16,13 @@ import { ActiveSessionCard } from '@/components/session/ActiveSessionCard';
 import { EntryFade } from '@/components/ui/EntryFade';
 import { PressableScale } from '@/components/ui/PressableScale';
 import { useActiveSession } from '@/hooks/useActiveSession';
+import { useLastEndedSession } from '@/hooks/useLastEndedSession';
 import { useDelightEnabled } from '@/lib/delight';
+import { relativeFromNow } from '@/lib/time';
 
 export default function HomeScreen() {
   const active = useActiveSession();
+  const lastEnded = useLastEndedSession();
   const delight = useDelightEnabled();
   const breath = useSharedValue(1);
 
@@ -40,15 +43,19 @@ export default function HomeScreen() {
     transform: [{ scale: breath.value }],
   }));
 
+  const subtitle = active
+    ? 'Tap your saved spot to navigate back.'
+    : lastEnded
+      ? 'Where are you parking today?'
+      : 'Saved any parking spots yet?';
+
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-surface-dark">
       <ScrollView contentContainerStyle={{ padding: 20, gap: 20 }}>
         <EntryFade>
           <View>
             <Text className="text-3xl font-bold text-ink dark:text-ink-inverse">ParkSpot</Text>
-            <Text className="text-base text-ink-muted mt-1">
-              {active ? 'Tap your saved spot to navigate back.' : 'Saved any parking spots yet?'}
-            </Text>
+            <Text className="text-base text-ink-muted mt-1">{subtitle}</Text>
           </View>
         </EntryFade>
 
@@ -72,6 +79,39 @@ export default function HomeScreen() {
             </Animated.View>
           </EntryFade>
         )}
+
+        {!active && lastEnded ? (
+          <EntryFade delay={120}>
+            <View className="bg-surface dark:bg-brand-800 rounded-2xl px-4 py-3 flex-row items-center gap-3">
+              <View className="w-9 h-9 rounded-full bg-brand-100 dark:bg-brand-700 items-center justify-center">
+                <Clock color="#0E7C66" size={18} />
+              </View>
+              <View className="flex-1">
+                <Text className="text-xs uppercase tracking-wide font-semibold text-ink-muted">
+                  Last parked
+                </Text>
+                <Text
+                  className="text-sm font-medium text-ink dark:text-ink-inverse mt-0.5"
+                  numberOfLines={1}>
+                  {lastEnded.note?.trim() || relativeFromNow(lastEnded.parkedAt)}
+                </Text>
+                {lastEnded.note?.trim() ? (
+                  <Text className="text-xs text-ink-muted mt-0.5">
+                    {relativeFromNow(lastEnded.parkedAt)}
+                  </Text>
+                ) : null}
+              </View>
+              <PressableScale
+                onPress={() => router.push(`/session/${lastEnded.id}`)}
+                scaleTo={0.95}
+                className="px-3 py-2 rounded-full bg-brand-50 dark:bg-brand-700">
+                <Text className="text-xs font-semibold text-brand-700 dark:text-brand-100">
+                  View
+                </Text>
+              </PressableScale>
+            </View>
+          </EntryFade>
+        ) : null}
 
         {active ? (
           <EntryFade delay={120}>

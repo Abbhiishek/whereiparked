@@ -1,4 +1,4 @@
-import { desc, eq, isNull, sql } from 'drizzle-orm';
+import { desc, eq, isNotNull, isNull, sql } from 'drizzle-orm';
 
 import { db } from '../client';
 import { type NewSession, type SessionRow, sessions } from '../schema';
@@ -14,6 +14,20 @@ export async function getActiveSession(): Promise<SessionRow | null> {
     .from(sessions)
     .where(isNull(sessions.endedAt))
     .orderBy(desc(sessions.parkedAt))
+    .limit(1);
+  return result[0] ?? null;
+}
+
+/**
+ * Most recent session that has already been ended. Used by the widget to
+ * show "Last parked …" when there's no active session.
+ */
+export async function getLastEndedSession(): Promise<SessionRow | null> {
+  const result = await db
+    .select()
+    .from(sessions)
+    .where(isNotNull(sessions.endedAt))
+    .orderBy(desc(sessions.endedAt))
     .limit(1);
   return result[0] ?? null;
 }

@@ -19,7 +19,7 @@ export function ExpirationPicker({ selectedMinutes, onChange }: ExpirationPicker
   return (
     <View>
       <View className="flex-row items-center gap-2 mb-2">
-        <Clock color="#0E7C66" size={18} />
+        <Clock color="#FFC542" size={18} />
         <Text className="text-sm font-medium text-ink dark:text-ink-inverse">
           Reminder before expiry
         </Text>

@@ -17,7 +17,7 @@ export default function OnboardingDoneScreen() {
     <SafeAreaView className="flex-1 bg-white dark:bg-surface-dark">
       <View className="flex-1 px-6 py-12 justify-between">
         <View className="flex-1 items-center justify-center">
-          <CheckCircle2 color="#0E7C66" size={96} strokeWidth={2.2} />
+          <CheckCircle2 color="#FFC542" size={96} strokeWidth={2.2} />
           <Text className="text-3xl font-bold text-ink dark:text-ink-inverse text-center mt-6 mb-3">
             You&apos;re all set
           </Text>

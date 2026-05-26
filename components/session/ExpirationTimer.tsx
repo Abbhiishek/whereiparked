@@ -84,7 +84,7 @@ export function ExpirationTimer({ expiresAt, onPress, compact }: ExpirationTimer
       <Pressable
         onPress={onPress}
         className="flex-row items-center gap-2 px-3 py-2 rounded-full border border-dashed border-brand-300">
-        <Plus color="#0E7C66" size={16} />
+        <Plus color="#FFC542" size={16} />
         <Text className="text-sm text-brand-500 font-medium">Set timer</Text>
       </Pressable>
     );
@@ -102,7 +102,7 @@ export function ExpirationTimer({ expiresAt, onPress, compact }: ExpirationTimer
       onPress={onPress}
       style={animatedStyle}
       className={`flex-row items-center gap-2 px-3 py-2 rounded-full border ${containerClass}`}>
-      <Clock color={isExpired ? '#D14343' : isWarning ? '#CC8C19' : '#0E7C66'} size={16} />
+      <Clock color={isExpired ? '#FF6B58' : isWarning ? '#E0A933' : '#FFC542'} size={16} />
       <Text className={`text-sm font-semibold ${textClass}`}>
         {compact ? formatCountdown(remainingMs) : `Expires in ${formatCountdown(remainingMs)}`}
       </Text>

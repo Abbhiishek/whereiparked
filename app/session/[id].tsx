@@ -43,7 +43,7 @@ export default function SessionDetailScreen() {
 
         <Card>
           <View className="flex-row items-start gap-3">
-            <MapPin color="#0E7C66" size={24} />
+            <MapPin color="#FFC542" size={24} />
             <View className="flex-1">
               {session.note ? (
                 <Text className="text-base text-ink dark:text-ink-inverse mb-1">

@@ -16,7 +16,7 @@ import { useDelightEnabled } from '@/lib/delight';
 
 const DOT_SIZE = 6;
 const GAP = 4;
-const COLOR = '#0E7C66';
+const COLOR = '#FFC542';
 
 interface LocationLockIndicatorProps {
   size?: number;

@@ -51,7 +51,7 @@ export default function WelcomeScreen() {
           {FEATURES.map((feature, idx) => (
             <EntryFade key={feature.title} delay={120 + idx * 90}>
               <FeatureRow
-                icon={<feature.Icon color="#0E7C66" size={28} />}
+                icon={<feature.Icon color="#FFC542" size={28} />}
                 title={feature.title}
                 description={feature.description}
                 index={idx}

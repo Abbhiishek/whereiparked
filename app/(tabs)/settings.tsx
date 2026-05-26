@@ -2,6 +2,7 @@ import { Download, Info, Sparkles, Trash2 } from 'lucide-react-native';
 import { Alert, Pressable, ScrollView, Switch, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Midnight } from '@/constants/design';
 import { clearAllSessions } from '@/db/queries/sessions';
 import { exportSessionsAsJson } from '@/services/exportJson';
 import { useSettingsStore } from '@/stores/settingsStore';
@@ -37,12 +38,21 @@ export default function SettingsScreen() {
   }
 
   return (
-    <SafeAreaView edges={['top']} className="flex-1 bg-white dark:bg-surface-dark">
-      <ScrollView contentContainerStyle={{ padding: 20, gap: 24 }}>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: Midnight.bg }}>
+      <ScrollView contentContainerStyle={{ padding: 20, gap: 24, paddingBottom: 40 }}>
+        <Text
+          style={{
+            fontSize: 32,
+            fontWeight: '700',
+            color: Midnight.text,
+            letterSpacing: -0.7,
+            marginBottom: 4,
+          }}>
+          Settings
+        </Text>
+
         <Section title="Reminders">
-          <Text className="text-sm text-ink-muted px-4 pt-3 mb-2">
-            Notify me this many minutes before parking expires
-          </Text>
+          <Text style={hint}>Notify me this many minutes before parking expires</Text>
           <ChipRow<number>
             options={REMINDER_OPTIONS}
             selected={defaultReminderMinutes}
@@ -61,9 +71,7 @@ export default function SettingsScreen() {
         </Section>
 
         <Section title="History retention">
-          <Text className="text-sm text-ink-muted px-4 pt-3 mb-2">
-            Auto-delete spots older than
-          </Text>
+          <Text style={hint}>Auto-delete spots older than</Text>
           <ChipRow<number>
             options={RETENTION_OPTIONS}
             selected={retentionDays}
@@ -73,21 +81,27 @@ export default function SettingsScreen() {
         </Section>
 
         <Section title="Feel">
-          <View className="flex-row items-center gap-3 px-4 py-3">
-            <Sparkles color="#0E7C66" size={20} />
-            <View className="flex-1">
-              <Text className="text-base font-medium text-ink dark:text-ink-inverse">
-                Motion & haptics
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: 12,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+            }}>
+            <Sparkles color={Midnight.accent} size={20} />
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontSize: 15, fontWeight: '500', color: Midnight.text }}>
+                Motion &amp; haptics
               </Text>
-              <Text className="text-xs text-ink-muted mt-0.5">
-                Springy buttons, gentle pulses, and tap feedback. Off respects accessibility
-                settings only.
+              <Text style={{ fontSize: 12, color: Midnight.textMute, marginTop: 2 }}>
+                Springy buttons, gentle pulses, and tap feedback.
               </Text>
             </View>
             <Switch
               value={delightEnabled}
               onValueChange={setDelightEnabled}
-              trackColor={{ false: '#9AAAA4', true: '#0E7C66' }}
+              trackColor={{ false: Midnight.surface3, true: Midnight.accent }}
               thumbColor="#FFFFFF"
             />
           </View>
@@ -95,12 +109,13 @@ export default function SettingsScreen() {
 
         <Section title="Data">
           <ActionRow
-            icon={<Download color="#0E7C66" size={20} />}
+            icon={<Download color={Midnight.accent} size={20} />}
             label="Export my data"
             onPress={() => exportSessionsAsJson()}
           />
+          <View style={{ height: 1, backgroundColor: Midnight.border, marginHorizontal: 16 }} />
           <ActionRow
-            icon={<Trash2 color="#D14343" size={20} />}
+            icon={<Trash2 color={Midnight.urgent} size={20} />}
             label="Delete all history"
             onPress={handleWipe}
             danger
@@ -108,13 +123,20 @@ export default function SettingsScreen() {
         </Section>
 
         <Section title="About">
-          <View className="px-4 py-3 flex-row items-start gap-3">
-            <Info color="#5C6B66" size={20} />
-            <View className="flex-1">
-              <Text className="text-sm font-medium text-ink dark:text-ink-inverse">
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              gap: 12,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+            }}>
+            <Info color={Midnight.textMute} size={20} />
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontSize: 13, fontWeight: '500', color: Midnight.text }}>
                 Local only — your data never leaves this device.
               </Text>
-              <Text className="text-xs text-ink-muted mt-1">
+              <Text style={{ fontSize: 12, color: Midnight.textMute, marginTop: 4 }}>
                 ParkSpot stores everything in on-device storage. No accounts, no cloud, no
                 tracking. Uninstall the app to wipe everything.
               </Text>
@@ -122,19 +144,52 @@ export default function SettingsScreen() {
           </View>
         </Section>
 
-        <Text className="text-xs text-ink-muted text-center mt-4">ParkSpot v1.0</Text>
+        <Text
+          style={{
+            fontSize: 11,
+            color: Midnight.textDim,
+            textAlign: 'center',
+            marginTop: 8,
+          }}>
+          ParkSpot v1.0
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
+const hint = {
+  fontSize: 13,
+  color: Midnight.textMute,
+  paddingHorizontal: 16,
+  paddingTop: 12,
+  marginBottom: 2,
+} as const;
+
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <View>
-      <Text className="text-xs font-bold uppercase tracking-wide text-ink-muted mb-2">
+      <Text
+        style={{
+          fontSize: 11,
+          fontWeight: '700',
+          color: Midnight.textMute,
+          marginBottom: 8,
+          letterSpacing: 1.4,
+          textTransform: 'uppercase',
+        }}>
         {title}
       </Text>
-      <View className="bg-surface dark:bg-brand-800 rounded-2xl overflow-hidden">{children}</View>
+      <View
+        style={{
+          backgroundColor: Midnight.surface2,
+          borderRadius: 18,
+          borderWidth: 1,
+          borderColor: Midnight.border,
+          overflow: 'hidden',
+        }}>
+        {children}
+      </View>
     </View>
   );
 }
@@ -151,22 +206,35 @@ function ChipRow<T>({
   renderLabel: (value: T) => string;
 }) {
   return (
-    <View className="flex-row flex-wrap gap-2 px-4 pb-4 pt-2">
+    <View
+      style={{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 8,
+        paddingHorizontal: 16,
+        paddingBottom: 16,
+        paddingTop: 8,
+      }}>
       {options.map((option) => {
         const active = option === selected;
         return (
           <Pressable
             key={String(option)}
             onPress={() => onSelect(option)}
-            className={`px-4 py-2 rounded-full border ${
-              active
-                ? 'bg-brand-500 border-brand-500'
-                : 'bg-white dark:bg-brand-700 border-gray-200 dark:border-brand-600'
-            }`}>
+            style={{
+              paddingHorizontal: 14,
+              paddingVertical: 8,
+              borderRadius: 999,
+              borderWidth: 1,
+              borderColor: active ? Midnight.accent : Midnight.border,
+              backgroundColor: active ? Midnight.accent : Midnight.surface3,
+            }}>
             <Text
-              className={`text-sm font-medium ${
-                active ? 'text-white' : 'text-ink dark:text-ink-inverse'
-              }`}>
+              style={{
+                fontSize: 13,
+                fontWeight: '500',
+                color: active ? Midnight.accentInk : Midnight.text,
+              }}>
               {renderLabel(option)}
             </Text>
           </Pressable>
@@ -190,10 +258,21 @@ function ActionRow({
   return (
     <Pressable
       onPress={onPress}
-      className="flex-row items-center gap-3 px-4 py-3 active:opacity-60">
+      style={({ pressed }) => ({
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+        paddingHorizontal: 16,
+        paddingVertical: 14,
+        opacity: pressed ? 0.6 : 1,
+      })}>
       {icon}
       <Text
-        className={`text-base font-medium ${danger ? 'text-danger' : 'text-ink dark:text-ink-inverse'}`}>
+        style={{
+          fontSize: 15,
+          fontWeight: '500',
+          color: danger ? Midnight.urgent : Midnight.text,
+        }}>
         {label}
       </Text>
     </Pressable>

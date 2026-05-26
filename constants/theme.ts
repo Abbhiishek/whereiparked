@@ -1,37 +1,28 @@
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0E7C66';
-const tintColorDark = '#5AB395';
+import { Midnight } from './design';
+
+// The app is dark-first (Midnight design). Both light and dark slots map to
+// the same Midnight tokens so callers that read `Colors[scheme]` get a
+// consistent palette regardless of system theme.
+const palette = {
+  text: Midnight.text,
+  textMuted: Midnight.textMute,
+  background: Midnight.bg,
+  surface: Midnight.surface2,
+  border: Midnight.border,
+  tint: Midnight.accent,
+  icon: Midnight.textMute,
+  tabIconDefault: Midnight.textDim,
+  tabIconSelected: Midnight.accent,
+  danger: Midnight.urgent,
+  success: Midnight.safe,
+  accent: Midnight.accent,
+} as const;
 
 export const Colors = {
-  light: {
-    text: '#0E1411',
-    textMuted: '#5C6B66',
-    background: '#FFFFFF',
-    surface: '#F5F8F6',
-    border: '#E2E8E5',
-    tint: tintColorLight,
-    icon: '#5C6B66',
-    tabIconDefault: '#5C6B66',
-    tabIconSelected: tintColorLight,
-    danger: '#D14343',
-    success: '#2BB673',
-    accent: '#FFB020',
-  },
-  dark: {
-    text: '#F5F8F6',
-    textMuted: '#9AAAA4',
-    background: '#0B1F1A',
-    surface: '#13312A',
-    border: '#1F4337',
-    tint: tintColorDark,
-    icon: '#9AAAA4',
-    tabIconDefault: '#9AAAA4',
-    tabIconSelected: tintColorDark,
-    danger: '#FF6B6B',
-    success: '#4FD198',
-    accent: '#FFC04D',
-  },
+  light: palette,
+  dark: palette,
 } as const;
 
 export const Spacing = {

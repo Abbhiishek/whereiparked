@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "parkspot",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": false,
@@ -15,7 +15,7 @@
     "android": {
       "package": "com.parkspot.app",
       "adaptiveIcon": {
-        "backgroundColor": "#0E7C66",
+        "backgroundColor": "#FFC542",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
@@ -65,9 +65,9 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#0B0D11",
           "dark": {
-            "backgroundColor": "#0B1F1A"
+            "backgroundColor": "#0B0D11"
           }
         }
       ],
@@ -96,7 +96,7 @@
         "expo-notifications",
         {
           "icon": "./assets/images/android-icon-monochrome.png",
-          "color": "#0E7C66"
+          "color": "#FFC542"
         }
       ],
       "expo-sqlite",

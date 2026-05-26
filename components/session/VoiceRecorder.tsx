@@ -152,7 +152,7 @@ export function VoiceRecorder({ uri, durationSec, sessionId, onChange }: VoiceRe
           </Text>
         </Pressable>
         <Pressable onPress={clear} className="p-2">
-          <Trash2 color="#D14343" size={20} />
+          <Trash2 color="#FF6B58" size={20} />
         </Pressable>
       </View>
     );
@@ -162,7 +162,7 @@ export function VoiceRecorder({ uri, durationSec, sessionId, onChange }: VoiceRe
     <Pressable
       onPress={startRecording}
       className="border-2 border-dashed border-brand-200 dark:border-brand-700 rounded-2xl py-6 items-center justify-center bg-brand-50/50 dark:bg-brand-900 flex-row gap-3">
-      <Mic color="#0E7C66" size={24} />
+      <Mic color="#FFC542" size={24} />
       <Text className="text-base text-brand-600 dark:text-brand-200 font-medium">
         Tap to record voice note
       </Text>

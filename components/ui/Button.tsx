@@ -6,6 +6,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
+import { Midnight } from '@/constants/design';
 import { pressHaptic, SPRING_SNAPPY, useDelightEnabled } from '@/lib/delight';
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger';
@@ -22,29 +23,20 @@ interface ButtonProps extends Omit<PressableProps, 'children'> {
   haptic?: boolean;
 }
 
-const variantClasses: Record<Variant, { container: string; label: string }> = {
-  primary: {
-    container: 'bg-brand-500 active:bg-brand-600',
-    label: 'text-white font-semibold',
-  },
-  secondary: {
-    container: 'bg-brand-50 dark:bg-brand-800 active:bg-brand-100',
-    label: 'text-brand-700 dark:text-brand-100 font-semibold',
-  },
-  ghost: {
-    container: 'bg-transparent active:bg-brand-50 dark:active:bg-brand-800',
-    label: 'text-brand-500 dark:text-brand-300 font-semibold',
-  },
-  danger: {
-    container: 'bg-danger active:opacity-80',
-    label: 'text-white font-semibold',
-  },
+const variantStyle: Record<Variant, { bg: string; fg: string }> = {
+  primary: { bg: Midnight.accent, fg: Midnight.accentInk },
+  secondary: { bg: Midnight.surface3, fg: Midnight.text },
+  ghost: { bg: 'transparent', fg: Midnight.text },
+  danger: { bg: 'transparent', fg: Midnight.urgent },
 };
 
-const sizeClasses: Record<Size, { container: string; label: string }> = {
-  sm: { container: 'py-2 px-3 rounded-xl min-h-[36px]', label: 'text-sm' },
-  md: { container: 'py-3 px-4 rounded-2xl min-h-[48px]', label: 'text-base' },
-  lg: { container: 'py-4 px-5 rounded-2xl min-h-[56px]', label: 'text-base' },
+const sizeStyle: Record<
+  Size,
+  { h: number; padH: number; fs: number; radius: number }
+> = {
+  sm: { h: 36, padH: 14, fs: 13, radius: 12 },
+  md: { h: 52, padH: 18, fs: 15, radius: 14 },
+  lg: { h: 56, padH: 20, fs: 16, radius: 16 },
 };
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -64,10 +56,8 @@ export function Button({
   style,
   ...rest
 }: ButtonProps) {
-  const v = variantClasses[variant];
-  const s = sizeClasses[size];
-  const widthClass = fullWidth ? 'w-full' : '';
-  const disabledClass = disabled || loading ? 'opacity-50' : '';
+  const v = variantStyle[variant];
+  const s = sizeStyle[size];
   const delight = useDelightEnabled();
   const scale = useSharedValue(1);
   const hapticDefault = variant === 'primary' || variant === 'danger';
@@ -93,14 +83,36 @@ export function Button({
         if (delight) scale.value = withSpring(1, SPRING_SNAPPY);
         onPressOut?.(ev);
       }}
-      style={[animatedStyle, style]}
-      className={`${v.container} ${s.container} ${widthClass} ${disabledClass} flex-row items-center justify-center gap-2`}>
+      style={[
+        animatedStyle,
+        {
+          height: s.h,
+          paddingHorizontal: s.padH,
+          borderRadius: s.radius,
+          backgroundColor: v.bg,
+          alignSelf: fullWidth ? 'stretch' : 'flex-start',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 8,
+          opacity: disabled || loading ? 0.5 : 1,
+        },
+        style,
+      ]}>
       {loading ? (
-        <ActivityIndicator color={variant === 'secondary' ? '#0E7C66' : '#FFFFFF'} />
+        <ActivityIndicator color={v.fg} />
       ) : (
         <>
           {leadingIcon ? <View>{leadingIcon}</View> : null}
-          <Text className={`${v.label} ${s.label}`}>{label}</Text>
+          <Text
+            style={{
+              color: v.fg,
+              fontSize: s.fs,
+              fontWeight: '600',
+              letterSpacing: 0.1,
+            }}>
+            {label}
+          </Text>
           {trailingIcon ? <View>{trailingIcon}</View> : null}
         </>
       )}

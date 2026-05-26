@@ -30,7 +30,7 @@ export function SessionListItem({ session, index = 0 }: SessionListItemProps) {
           />
         ) : (
           <View className="w-14 h-14 rounded-xl bg-brand-50 dark:bg-brand-800 items-center justify-center">
-            <MapPin color="#0E7C66" size={24} />
+            <MapPin color="#FFC542" size={24} />
           </View>
         )}
         <View className="flex-1">

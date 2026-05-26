@@ -8,36 +8,41 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { HapticTab } from '@/components/haptic-tab';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Midnight } from '@/constants/design';
 import { SPRING_SNAPPY, useDelightEnabled } from '@/lib/delight';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme() ?? 'light';
-  const palette = Colors[colorScheme];
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: palette.tabIconSelected,
-        tabBarInactiveTintColor: palette.tabIconDefault,
+        tabBarActiveTintColor: Midnight.text,
+        tabBarInactiveTintColor: Midnight.textDim,
         tabBarStyle: {
-          backgroundColor: palette.background,
-          borderTopColor: palette.border,
+          backgroundColor: Midnight.surface,
+          borderTopColor: Midnight.border,
+          borderTopWidth: 1,
+          height: 64,
+          paddingTop: 8,
+          paddingBottom: 10,
         },
-        headerStyle: { backgroundColor: palette.background },
-        headerTintColor: palette.text,
+        tabBarLabelStyle: {
+          fontSize: 11,
+          fontWeight: '500',
+          letterSpacing: 0.2,
+        },
+        headerStyle: { backgroundColor: Midnight.bg },
+        headerTintColor: Midnight.text,
         headerShadowVisible: false,
         tabBarButton: HapticTab,
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'Now',
           headerShown: false,
           tabBarIcon: ({ color, size, focused }) => (
             <TabIcon focused={focused}>
-              <Home color={color} size={size} />
+              <Home color={color} size={size} strokeWidth={focused ? 2.1 : 1.7} />
             </TabIcon>
           ),
         }}
@@ -45,10 +50,11 @@ export default function TabLayout() {
       <Tabs.Screen
         name="history"
         options={{
-          title: 'History',
+          title: 'Past',
+          headerShown: false,
           tabBarIcon: ({ color, size, focused }) => (
             <TabIcon focused={focused}>
-              <Clock color={color} size={size} />
+              <Clock color={color} size={size} strokeWidth={focused ? 2.1 : 1.7} />
             </TabIcon>
           ),
         }}
@@ -57,9 +63,10 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: 'Settings',
+          headerShown: false,
           tabBarIcon: ({ color, size, focused }) => (
             <TabIcon focused={focused}>
-              <Settings color={color} size={size} />
+              <Settings color={color} size={size} strokeWidth={focused ? 2.1 : 1.7} />
             </TabIcon>
           ),
         }}

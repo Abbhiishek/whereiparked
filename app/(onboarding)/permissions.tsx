@@ -34,7 +34,7 @@ export default function PermissionsScreen() {
   if (step === 'location') {
     return (
       <PermissionPrompt
-        icon={<MapPin color="#0E7C66" size={56} />}
+        icon={<MapPin color="#FFC542" size={56} />}
         title="Allow location access"
         description="ParkSpot uses your phone's GPS to remember exactly where you parked. We never track you in the background."
         cta={working ? 'Requesting...' : 'Allow location'}
@@ -46,7 +46,7 @@ export default function PermissionsScreen() {
 
   return (
     <PermissionPrompt
-      icon={<Bell color="#0E7C66" size={56} />}
+      icon={<Bell color="#FFC542" size={56} />}
       title="Get parking reminders"
       description="We'll notify you before your meter runs out. No spam, no marketing — just the reminders you set."
       cta={working ? 'Requesting...' : 'Allow notifications'}

@@ -40,7 +40,7 @@ export function ActiveSessionCard({ session }: ActiveSessionCardProps) {
 
           <View className="flex-row items-center gap-2 mb-2">
             <PulsingPin>
-              <MapPin color="#0E7C66" size={18} />
+              <MapPin color="#FFC542" size={18} />
             </PulsingPin>
             <Text className="text-base font-semibold text-ink dark:text-ink-inverse">
               {session.note ?? formatCoords(session)}

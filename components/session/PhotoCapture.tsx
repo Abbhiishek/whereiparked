@@ -88,7 +88,7 @@ export function PhotoCapture({ uri, onChange }: PhotoCaptureProps) {
       <Pressable
         onPress={openCamera}
         className="border-2 border-dashed border-brand-200 dark:border-brand-700 rounded-2xl py-10 items-center justify-center bg-brand-50/50 dark:bg-brand-900">
-        <CameraIcon color="#0E7C66" size={32} />
+        <CameraIcon color="#FFC542" size={32} />
         <Text className="text-base text-brand-600 dark:text-brand-200 mt-2 font-medium">Add a photo</Text>
         <Text className="text-xs text-ink-muted mt-1">Optional — capture pillar number, row, etc.</Text>
       </Pressable>
@@ -112,7 +112,7 @@ export function PhotoCapture({ uri, onChange }: PhotoCaptureProps) {
               disabled={busy}
               className="w-20 h-20 rounded-full bg-white items-center justify-center">
               {busy ? (
-                <ActivityIndicator color="#0E7C66" />
+                <ActivityIndicator color="#FFC542" />
               ) : (
                 <View className="w-16 h-16 rounded-full bg-white border-4 border-brand-500" />
               )}
